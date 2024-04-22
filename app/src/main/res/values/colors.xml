@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="brand_color">#053C53</color>
+    <color name="medium_blue">#FF1F7ABC</color>
+    <color name="green">#26BE13</color>
+    <color name="cloud_blue">#BFDBF7</color>
+    <color name="light_cloud_blue">#EDF5FD</color>
+    <color name="text_color">#03263B</color>
+    <color name="SecText">#053756</color>
+    <color name="AddText">#4B93C3</color>
+    <color name="background">#FFFFFFFF</color>
+    <color name="grey">#808080</color>
+<!--    <color name="blue_click">#EDF5FD</color>-->
+    <color name="red">#B00020</color>
+    <color name="transparent">#00ffffff</color>
+</resources>

@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Pills Time</string>
+    <string name="home">Home</string>
+    <string name="my_medicines">My Medicines</string>
+    <string name="settings">Settings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_medicine">add medicine</string>
+    <string name="medicine_name">Medicine Name*</string>
+    <string name="enter_medicine_name">enter medicine name*</string>
+    <string name="medicine_type">Medicine Type</string>
+    <string name="minus">-</string>
+    <string name="zero">0</string>
+    <string name="plus">+</string>
+
+
+    <string-array name="medicine_types">
+        <item>Tablet</item>
+        <item>Capsule</item>
+        <item>Liquid</item>
+        <item>Injection</item>
+        <item>Spray</item>
+    </string-array>
+</resources>

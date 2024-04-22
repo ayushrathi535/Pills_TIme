@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MyAppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+
+            <item name="colorPrimary">@color/green</item>
+            <item name="colorPrimaryVariant">@color/brand_color</item>
+            <item name="colorOnPrimary">@color/white</item>
+            <item name="android:statusBarColor">@color/green</item>
+
+    </style>
+</resources>

@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+
+    <style name="AppTheme2" parent="Theme.Material3.Light.NoActionBar">
+
+
+        <item name="android:statusBarColor">@color/green</item>
+
+
+
+
+    </style>
+
+
+
+
+
+
+</resources>

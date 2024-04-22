@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/home"
+        android:icon="@drawable/home"
+        android:title="@string/home"
+        />
+
+    <item android:id="@+id/my_medicine"
+        android:icon="@drawable/pill"
+        android:title="@string/my_medicines"
+        />
+    <item android:id="@+id/setting"
+        android:icon="@drawable/setting"
+        android:title="@string/settings"
+        />
+
+</menu>
