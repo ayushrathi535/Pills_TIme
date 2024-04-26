@@ -20,10 +20,7 @@ import com.example.pillstime.model.Medicine
 import com.example.pillstime.model.Reminder
 import com.example.pillstime.model.ReminderState
 import com.example.pillstime.model.Weeks
-import com.example.pillstime.interfaces.DaySelectionListener
 import com.example.pillstime.interfaces.ReminderCallback
-import com.example.pillstime.model.EndMedDate
-import com.example.pillstime.model.StartMedDate
 import com.example.pillstime.roomdb.MedicineDatabase
 import com.example.pillstime.utils.DateUtils
 import com.example.pillstime.utils.reminder
@@ -35,7 +32,7 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 
-class AddMedicineFragment : Fragment(), ReminderCallback, DaySelectionListener {
+class AddMedicineFragment : Fragment(), ReminderCallback {
 
     private var _binding: FragmentAddMedicineBinding? = null
     private val binding get() = _binding!!
@@ -106,13 +103,22 @@ class AddMedicineFragment : Fragment(), ReminderCallback, DaySelectionListener {
                 timeList.size <= 0
             ) {
                 Log.d("AddMedicineFragment", "Checking conditions for saving medicine:")
-                Log.d("AddMedicineFragment", "Medicine name isNullOrEmpty: ${medName.isNullOrEmpty()}")
+                Log.d(
+                    "AddMedicineFragment",
+                    "Medicine name isNullOrEmpty: ${medName.isNullOrEmpty()}"
+                )
                 Log.d("AddMedicineFragment", "Amount is zero: ${amount == 0}")
                 Log.d("AddMedicineFragment", "Start date is not null: ${startDate?.date}")
                 Log.d("AddMedicineFragment", "End date enddate is not null: ${endDate?.date}")
-                Log.d("AddMedicineFragment", "Result days isNullOrEmpty: ${resultDays.isNullOrEmpty()}")
+                Log.d(
+                    "AddMedicineFragment",
+                    "Result days isNullOrEmpty: ${resultDays.isNullOrEmpty()}"
+                )
                 Log.d("AddMedicineFragment", "DAYS_FLAG is true: ${DAYS_FLAG == true}")
-                Log.d("AddMedicineFragment", "Time list size is greater than 0: ${timeList.size > 0}")
+                Log.d(
+                    "AddMedicineFragment",
+                    "Time list size is greater than 0: ${timeList.size > 0}"
+                )
 
                 Log.e("saveBTN-->", "if block")
                 Toast.makeText(requireContext(), "enter all fields", Toast.LENGTH_LONG).show()
@@ -157,31 +163,32 @@ class AddMedicineFragment : Fragment(), ReminderCallback, DaySelectionListener {
 
     override fun onResume() {
         super.onResume()
-        var startDates:String?=null
-        var endDates:String?=null
-        if (startDate!=null) {
+        var startDates: String? = null
+        var endDates: String? = null
+        if (startDate != null) {
 
-              startDates=  DateUtils.formatDate(startDate?.year!!, startDate?.month!!, startDate?.date!!)
+            startDates =
+                DateUtils.formatDate(startDate?.year!!, startDate?.month!!, startDate?.date!!)
         }
-        if (endDate!=null) {
-            endDates=
+        if (endDate != null) {
+            endDates =
                 DateUtils.formatDate(endDate?.year!!, endDate?.month!!, endDate?.date!!)
         }
 
-        if (startDates!=null) {
+        if (startDates != null) {
             binding.startDate.text = startDates
         }
-        if (endDates!=null){
-        binding.endDate.text = endDates
-            }
-        if (amount!=0){
+        if (endDates != null) {
+            binding.endDate.text = endDates
+        }
+        if (amount != 0) {
             binding.amount.text = amount.toString()
         }
 
 
         setupReminderText(reminderData)
 
-        Log.e("onResyme-->",reminderData.toString())
+        Log.e("ADDMEDFRAG-->", "onResume-->")
     }
 
     private fun receieveListFromTimeFragment() {
@@ -264,13 +271,23 @@ class AddMedicineFragment : Fragment(), ReminderCallback, DaySelectionListener {
         }
 
         binding.days.setOnClickListener {
-            selectDays(requireActivity(), this) { noDaysSelected ->
 
-                // if false  then user selct for true not selct any
-                DAYS_FLAG = noDaysSelected
-                Log.e("days_flag--->", DAYS_FLAG.toString())
-            }
+
+            selectDays(requireActivity(),
+                onNoDaysSelected = { noDaysSelected ->
+                    //  if false  then user selct for true not selct any
+                    DAYS_FLAG = noDaysSelected
+                    Log.e("days_flag--->", DAYS_FLAG.toString())
+                },
+                listener = { selectedDays ->
+
+                    onDaysSelected(selectedDays)
+                }
+
+            )
+
         }
+
         binding.medTime.setOnClickListener {
 
             loadFragment(MedicineTimeFragment())
@@ -352,7 +369,10 @@ class AddMedicineFragment : Fragment(), ReminderCallback, DaySelectionListener {
         with(binding.toolbarLayout.icon) {
             visibility = View.VISIBLE
             setOnClickListener {
-                // Todo cross icon click
+                requireActivity().supportFragmentManager.popBackStack()
+//                requireActivity().supportFragmentManager.beginTransaction()
+//                    .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+//                    .commit()
             }
         }
     }
@@ -366,7 +386,7 @@ class AddMedicineFragment : Fragment(), ReminderCallback, DaySelectionListener {
 
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
         transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-        transaction.replace(R.id.fragContainer, fragment)
+        transaction.add(R.id.fragContainer, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }
@@ -446,7 +466,7 @@ class AddMedicineFragment : Fragment(), ReminderCallback, DaySelectionListener {
 
     }
 
-    override fun onDaysSelected(selectedDays: List<Days>) {
+    fun onDaysSelected(selectedDays: List<Days>) {
 
         weeks = mapSelectedDaysToWeeks(selectedDays)
 

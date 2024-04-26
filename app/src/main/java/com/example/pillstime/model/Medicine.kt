@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.pillstime.utils.Converters
+import com.example.pillstime.utils.ConvertersTwo
 import java.util.Date
 
 
@@ -18,53 +19,53 @@ data class Medicine(
 
     var medicineName: String?,
 
-    var medicineType:String?,
+    var medicineType: String?,
 
-    var amount:Int?,
+    var amount: Int?,
 
 
-    var startMedDate :Date?=null,
+    var startMedDate: Date? = null,
 
-    var endMedDate:Date?=null,
+    var endMedDate: Date? = null,
 
     @Embedded
-    var doseDays: Weeks?=null,
+    var doseDays: Weeks? = null,
+//
+//    @TypeConverters(ConvertersTwo::class)
+//    var isChecked: List<CheckDate>? = null,
 
-//    val date:Date ?,
-
-    var doseTimes : List<DoseTime>?=null,
+    var doseTimes: List<DoseTime>? = null,
     @Embedded
-    var reminder: Reminder?=null
+    var reminder: Reminder? = null
+
+
 )
 
 
-data class StartMedDate(
-    var date:Int?,
-    var month:Int?,
-    var year:Int?
+data class CheckDate(
+    var completedDate: Date,
+    val med_id: Long,
+    var isChecked: Boolean
 )
 
-data class EndMedDate(
-    var enddate:Int?,
-    var endmonth:Int?,
-    var endyear:Int?
-)
 
 data class DoseTime(
-    var  hour:String,
-    var min:String,
-    var am_pm:String
+    var hour: String,
+    var min: String,
+    var am_pm: String
 )
 
 
-data class  Reminder(
-    var vibration:Boolean?=true,
-    var notification:Boolean?=true,
-    var soundSignal: Boolean?=true,
-    var allType:Boolean ? =true
+data class Reminder(
+    var vibration: Boolean? = true,
+    var notification: Boolean? = true,
+    var soundSignal: Boolean? = true,
+    var allType: Boolean? = true
 )
+
 
 data class Weeks(
+
     var sunday: Boolean = false,
     var monday: Boolean = false,
     var tuesday: Boolean = false,
@@ -77,20 +78,6 @@ data class Weeks(
 
 
 data class Days(
-    val day:String
+    val day: String
 )
 
-
-
-data class medDate(
-    var date:Int?,
-    var month:Int?,
-    var year:Int?
-)
-//val Mo:String,
-//    val Tu:String,
-//    val Wed:String,
-//    val Thur:String,
-//    val Fri:String,
-//    val Sat:String,
-//    val Su:String

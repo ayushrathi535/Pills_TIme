@@ -3,6 +3,7 @@ package com.example.pillstime.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,8 +23,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        // enableEdgeToEdge()
-
+        Log.e("main activity--->","onCreate called")
         _binding = ActivityMainBinding.inflate(layoutInflater)
+
+        // Change status bar text color to black
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
         setContentView(binding.root)
 
 //        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -58,7 +63,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        Log.e("main activity--->","onResume called")
+    }
     fun getBottomNavigationView(): BottomNavigationView {
         return binding.bottomNavigationView
     }
@@ -70,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
             transaction.replace(R.id.fragContainer, fragment)
-         //   transaction.addToBackStack(null)
+            transaction.addToBackStack(null)
             transaction.commit()
         }
     }

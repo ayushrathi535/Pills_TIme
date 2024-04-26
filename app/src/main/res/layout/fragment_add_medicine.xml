@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cloud_blue"
+    android:background="@color/light_cloud_blue"
     tools:context=".ui.AddMedicineFragment">
 
     <include
@@ -26,8 +26,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            >
+
+            android:padding="8dp">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/firstCard"
@@ -35,9 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
                 android:layout_marginTop="8dp"
-                app:cardBackgroundColor="@color/light_cloud_blue"
+                android:background="@color/white"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -46,8 +45,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingVertical="16dp"
-                    android:padding="8dp">
+                    android:padding="8dp"
+                    android:paddingVertical="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -60,10 +59,10 @@
                         android:id="@+id/medName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autofillHints="true"
                         android:backgroundTint="@color/transparent"
                         android:ems="15"
                         android:hint="@string/enter_medicine_name"
-                        android:autofillHints="true"
                         android:inputType="text"
                         android:textColor="@color/text_color"
                         android:textSize="18sp" />
@@ -75,8 +74,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:background="@color/white"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="@color/light_cloud_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/firstCard">
@@ -84,8 +83,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                   >
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -173,8 +171,7 @@
                                     android:layout_weight="1"
                                     android:backgroundTint="@color/medium_blue"
                                     android:text="@string/plus"
-                                    android:textColor="@color/white"
-                                    />
+                                    android:textColor="@color/white" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -189,157 +186,158 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:cardBackgroundColor="@color/light_cloud_blue"
+                android:background="@color/white"
                 app:cardCornerRadius="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/secondCard">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-
                 <LinearLayout
-                    android:id="@+id/third"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="8dp"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        >
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Start"
-                            android:textColor="@color/black"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/startDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:drawablePadding="8dp"
-                            android:hint="select date"
-                            android:textColor="@color/text_color"
-                            android:textSize="16sp"
-                            app:drawableEndCompat="@drawable/calendar"
-                            app:drawableTint="@color/medium_blue" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="8dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="End"
-                            android:textColor="@color/black"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/endDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:drawablePadding="8dp"
-                            android:hint="select date"
-                            android:textColor="@color/text_color"
-                            android:textSize="16sp"
-                            app:drawableEndCompat="@drawable/calendar"
-                            app:drawableTint="@color/medium_blue" />
-                    </LinearLayout>
-
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/cloud_blue"/>
-                <LinearLayout
-                    android:id="@+id/fourth"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="12dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Reception Hours"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/medTime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:drawablePadding="8dp"
-                        android:paddingVertical="4dp"
-                        android:textColor="@color/text_color"
-                        android:textSize="16sp"
-                        app:drawableTint="@color/grey"
-                        app:drawableEndCompat="@drawable/next" />
-
-                </LinearLayout>
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/cloud_blue"/>
-
-                <LinearLayout
-                    android:id="@+id/daysLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="12dp"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="@+id/view2"
-                    app:layout_constraintStart_toStartOf="@+id/view2"
-                    app:layout_constraintTop_toBottomOf="@+id/view2">
+                    android:padding="8dp">
 
-                    <TextView
+
+                    <LinearLayout
+                        android:id="@+id/third"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Reception Days*  "
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:baselineAligned="false"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp">
 
-                    <TextView
-                        android:id="@+id/days"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="8dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Start"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/startDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:drawablePadding="8dp"
+                                android:hint="select date"
+                                android:textColor="@color/text_color"
+                                android:textSize="16sp"
+                                app:drawableEndCompat="@drawable/calendar"
+                                app:drawableTint="@color/medium_blue" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="8dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="End"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/endDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:drawablePadding="8dp"
+                                android:hint="select date"
+                                android:textColor="@color/text_color"
+                                android:textSize="16sp"
+                                app:drawableEndCompat="@drawable/calendar"
+                                app:drawableTint="@color/medium_blue" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/cloud_blue" />
+
+                    <LinearLayout
+                        android:id="@+id/fourth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:drawablePadding="8dp"
-                        android:paddingVertical="4dp"
-                        android:text=""
-                        android:textColor="@color/text_color"
-                        android:textSize="16sp"
-                        app:drawableEndCompat="@drawable/next"
-                        app:drawableTint="@color/grey" />
+                        android:orientation="vertical"
+                        android:paddingVertical="12dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Reception Hours"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/medTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:drawablePadding="8dp"
+                            android:paddingVertical="4dp"
+                            android:textColor="@color/text_color"
+                            android:textSize="14sp"
+                            app:drawableEndCompat="@drawable/next"
+                            app:drawableTint="@color/grey" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/cloud_blue" />
+
+                    <LinearLayout
+                        android:id="@+id/daysLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="12dp"
+                        app:layout_constraintEnd_toEndOf="@+id/view2"
+                        app:layout_constraintStart_toStartOf="@+id/view2"
+                        app:layout_constraintTop_toBottomOf="@+id/view2">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Reception Days*  "
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/days"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:drawablePadding="8dp"
+                            android:paddingVertical="4dp"
+                            android:text=""
+                            android:textColor="@color/text_color"
+                            android:textSize="14sp"
+                            app:drawableEndCompat="@drawable/next"
+                            app:drawableTint="@color/grey" />
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
-
-
-            </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
 
 
             <com.google.android.material.card.MaterialCardView
@@ -347,8 +345,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:background="@color/white"
                 app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="@color/light_cloud_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/thirdCard">
@@ -363,8 +361,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingVertical="12dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingVertical="12dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -379,10 +377,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:drawablePadding="8dp"
-                            android:text="Default: ALL"
                             android:paddingVertical="4dp"
+                            android:text="Default: ALL"
                             android:textColor="@color/text_color"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             app:drawableEndCompat="@drawable/bell"
                             app:drawableTint="@color/medium_blue" />
 
@@ -409,6 +407,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
+            app:backgroundTint="@null"
             android:background="@drawable/button_background"
             android:text="Save"
             android:textColor="@color/white"

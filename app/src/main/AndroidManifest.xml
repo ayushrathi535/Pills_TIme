@@ -22,6 +22,9 @@
             tools:ignore="ExtraText">
             android:theme="@style/Theme.PillsTheme.NoActionBar"
             >
+            <meta-data
+                android:name="android.support.customtabs.ENABLE_DEFAULT_SHARE_MENU"
+                android:value="true" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -50,6 +50,7 @@ class MedicineTimeFragment : Fragment(), TimeAdapter.OnTimeItemClickListener {
 
         val medId = arguments?.getSerializable("medicineID")
 
+        Log.e("medID---->",medId.toString())
 
         val medicineDao = MedicineDatabase.getInstance(requireContext()).medicineDao()
         val viewModelFactory = MedicineViewModelFactory(medicineDao)
@@ -151,7 +152,7 @@ class MedicineTimeFragment : Fragment(), TimeAdapter.OnTimeItemClickListener {
         with(binding.toolbar.icon) {
             visibility = View.VISIBLE
             setOnClickListener {
-                // Todo cross icon click
+                requireActivity().supportFragmentManager.popBackStack()
             }
         }
     }
@@ -162,7 +163,7 @@ class MedicineTimeFragment : Fragment(), TimeAdapter.OnTimeItemClickListener {
         _binding = null
     }
 
-    override fun onItemClick(position: Int, doseTime: DoseTime) {
+    override fun onItemClick(position: Int) {
         selectTime(requireActivity()) { selectedTime ->
             Log.e("position-->", position.toString())
             timeList[position] = selectedTime

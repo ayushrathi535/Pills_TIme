@@ -16,4 +16,8 @@
 <!--    <color name="blue_click">#EDF5FD</color>-->
     <color name="red">#B00020</color>
     <color name="transparent">#00ffffff</color>
+    <color name="test">#006B7D</color>
+    <color name="mediumblue_subs">#005E6A</color>
+    <color name="brand2">#004153</color>
+
 </resources>

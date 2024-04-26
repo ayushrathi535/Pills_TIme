@@ -23,7 +23,7 @@
         android:orientation="vertical"
         android:padding="8dp"
         android:background="@color/medium_blue"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -39,7 +39,9 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="16dp"
-                android:background="@drawable/back"/>
+                android:background="@drawable/back"
+                android:backgroundTint="@color/white"
+               />
 
             <TextView
                 android:id="@+id/monthNdYear"
@@ -56,7 +58,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/next"/>
+                android:background="@drawable/next"
+                android:backgroundTint="@color/white"/>
 
         </LinearLayout>
 
@@ -66,7 +69,7 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:paddingVertical="8dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_calendar_card" />
@@ -78,7 +81,7 @@
         android:id="@+id/medicineLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/light_cloud_blue"
+        android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@id/calendarLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,15 +121,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@id/selectedDate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" >
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="180dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:src="@drawable/placeholder"
                 android:layout_gravity="center"
                 android:padding="12dp"
@@ -135,7 +138,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No Drug is scheduled for today"
+                android:text="No Drug is scheduled for today\n Click On the '+' to add medicine "
                 android:textColor="@color/SecText"
                 android:textSize="18sp"
                 android:layout_gravity="center"

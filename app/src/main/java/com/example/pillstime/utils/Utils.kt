@@ -21,14 +21,10 @@ import com.example.pillstime.model.Days
 import com.example.pillstime.model.DoseTime
 import com.example.pillstime.model.Reminder
 import com.example.pillstime.model.ReminderState
-import com.example.pillstime.model.Weeks
-import com.example.pillstime.model.medDate
-import com.example.pillstime.interfaces.DaySelectionListener
 import com.example.pillstime.interfaces.ReminderCallback
-import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
-import java.util.Locale
+
 
 
 var dialogInstance: Dialog? = null
@@ -218,8 +214,9 @@ private fun setButtonState(context: Context, button: TextView, state: Boolean) {
 
 fun selectDays(
     context: Context,
-    listener: DaySelectionListener?,
-    onNoDaysSelected: (Boolean) -> Unit
+//    listener: DaySelectionListener?,
+    onNoDaysSelected: (Boolean) -> Unit,
+    listener : (List<Days>) ->Unit
 ) {
 
 
@@ -265,7 +262,8 @@ fun selectDays(
         if (selectedDays.isEmpty()) {
             onNoDaysSelected(true)
         } else {
-            listener?.onDaysSelected(selectedDays)
+            listener(selectedDays)
+           // listener?.onDaysSelected(selectedDays)
             onNoDaysSelected(false)
         }
         dialog.dismiss()

@@ -15,7 +15,7 @@ class TimeAdapter(private val itemClickListener: OnTimeItemClickListener) :
 
 
     interface OnTimeItemClickListener {
-        fun onItemClick(position: Int, doseTime: DoseTime)
+        fun onItemClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeAdapter.TimeViewHolder {
@@ -45,7 +45,7 @@ class TimeAdapter(private val itemClickListener: OnTimeItemClickListener) :
             val position = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 val timeItem = differ.currentList[position]
-                itemClickListener.onItemClick(position, timeItem)
+                itemClickListener.onItemClick(position)
             }
         }
 
