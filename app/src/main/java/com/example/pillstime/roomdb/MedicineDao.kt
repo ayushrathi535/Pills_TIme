@@ -2,12 +2,13 @@ package com.example.pillstime.roomdb
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Upsert
 import com.example.pillstime.model.Medicine
+import com.example.pillstime.model.MedicineTrack
 
 
 @Dao
@@ -30,5 +31,14 @@ interface MedicineDao {
 
     @Query("Select * FROM my_medicine")
     fun getAllMedicine():LiveData<List<Medicine>>
+
+    @Query("Select * FROM medicine_track")
+    fun getAllDates():LiveData<List<MedicineTrack>>
+
+    @Upsert
+   suspend fun insertMedTakenRecord(medicineTrack: MedicineTrack)
+
+   @Query("SELECT * from medicine_track where medId = :medID")
+   suspend fun getMedTrackRecord(medID:Long):MedicineTrack
 
 }

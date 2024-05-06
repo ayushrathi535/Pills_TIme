@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.pillstime.model.Medicine
+import com.example.pillstime.model.MedicineTrack
 import com.example.pillstime.model.Weeks
 
-@Database(entities = [Medicine::class], version = 1, exportSchema = false)
+@Database(entities = [Medicine::class,MedicineTrack::class], version = 1, exportSchema = false)
 abstract class MedicineDatabase : RoomDatabase() {
     abstract fun medicineDao(): MedicineDao
 

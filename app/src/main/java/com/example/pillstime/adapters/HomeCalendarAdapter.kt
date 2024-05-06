@@ -80,7 +80,7 @@ class CalendarAdapter(private val listener: (calendarDateModel: CalendarDateMode
 //            if(flag == true){
 //                listener.invoke(calendarDateModel,adapterPosition)
 //            }
-            Log.e("adapter position-->",adapterPosition.toString())
+          //  Log.e("adapter position-->",adapterPosition.toString())
             binding.dateContainer.setOnClickListener {
                 listener.invoke(calendarDateModel, adapterPosition)
             }

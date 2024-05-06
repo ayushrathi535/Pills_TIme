@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
@@ -17,17 +18,19 @@ import com.example.pillstime.adapters.HomeMedicineAdapter
 import com.example.pillstime.databinding.FragmentHomeBinding
 import com.example.pillstime.model.CalendarDateModel
 import com.example.pillstime.model.Medicine
+import com.example.pillstime.model.MedicineTrack
 import com.example.pillstime.roomdb.MedicineDatabase
 import com.example.pillstime.utils.DateUtils
 import com.example.pillstime.utils.HorizontalItemDecoration
 import com.example.pillstime.viewmodels.MedicineViewModel
 import com.example.pillstime.viewmodels.MedicineViewModelFactory
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeMedicineAdapter.OnTakenListener {
 
 
     private var _binding: FragmentHomeBinding? = null
@@ -49,6 +52,13 @@ class HomeFragment : Fragment() {
     private val dates = ArrayList<Date>()
     private lateinit var adapter: CalendarAdapter
     private val calendarList2 = ArrayList<CalendarDateModel>()
+
+    private var medTrackDate = mutableListOf<Date>()
+    private var medTrackList = mutableListOf<MedicineTrack>()
+    private var date: Date? = null
+
+    var medicine: Medicine? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,6 +90,17 @@ class HomeFragment : Fragment() {
             Log.e("selected med observe --->", selectedMedicines.size.toString())
         }
 
+        viewModel.trackList.observe(viewLifecycleOwner) { dateList ->
+
+            val list = dateList.toMutableList()
+            if (list.isNotEmpty()) {
+                medTrackList = list
+                medAdapter.getUpdatedList(list)
+                Log.e("adapter list frg-->", medTrackList.toString())
+            }
+
+        }
+
 
         setupHomeMedicineRecycler(currentMedicines)
 
@@ -94,19 +115,26 @@ class HomeFragment : Fragment() {
         val snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(binding.calendarView)
 
-        adapter = CalendarAdapter{ calendarDateModel: CalendarDateModel, position: Int ->
+        adapter = CalendarAdapter { calendarDateModel: CalendarDateModel, position: Int ->
 
-            Log.e("position-->",position.toString())
+// saving the selected date
+            date = calendarDateModel.data
+            if (date != null) {
+                medAdapter.getDate(date!!)
+                adapter.notifyDataSetChanged()
+            }
+            Log.e("sel date--->", date.toString())
+
+            Log.e("position-->", position.toString())
             calendarList2.forEachIndexed { index, calendarModel ->
                 calendarModel.isSelected = index == position
             }
             adapter.setData(calendarList2)
 
-            Log.e("current date-->","${currentDate.time}")
+            Log.e("current date-->", "${currentDate.time}")
 
-            val date = calendarDateModel.data
 
-                checkDateWithData(date)
+            checkDateWithData(calendarDateModel.data)
 
         }
 
@@ -114,17 +142,16 @@ class HomeFragment : Fragment() {
     }
 
 
-
-    private  fun checkDateWithData(date: Date){
+    private fun checkDateWithData(date: Date) {
         currentMedicines.clear() // Clear the current list before adding new medicines
         for (medicine in selectedMedicines) {
             if (isDateInRange(date, medicine.startMedDate, medicine.endMedDate)) {
 
 
-                for (i in 0..5){
+                for (i in 0..5) {
                     val day = DateUtils.getDayName(date)
 
-                    Log.e("days---->",day)
+                    Log.e("days---->", day)
                 }
 
                 currentMedicines.add(medicine) // adding medicine  to currentMedicines
@@ -149,9 +176,9 @@ class HomeFragment : Fragment() {
     private fun setUpCalendar() {
 
         val calendarList = ArrayList<CalendarDateModel>()
-        val monthAndYear=sdf.format(cal.time)
+        val monthAndYear = sdf.format(cal.time)
         binding.monthNdYear.text = monthAndYear
-        binding.selectedDate.text=monthAndYear
+        binding.selectedDate.text = monthAndYear
         val monthCalendar = cal.clone() as Calendar
         val maxDaysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
         dates.clear()
@@ -183,7 +210,7 @@ class HomeFragment : Fragment() {
 
     private fun setupHomeMedicineRecycler(medList: MutableList<Medicine>) {
         Log.e("setupHomeMedicineRecycler-->", medList.size.toString())
-        medAdapter = HomeMedicineAdapter()
+        medAdapter = HomeMedicineAdapter(medTrackList, this)
         medAdapter.differ.submitList(medList.toList())
 
         binding.medicineRecycler.apply {
@@ -252,6 +279,8 @@ class HomeFragment : Fragment() {
 
 
     private fun isDateInRange(date: Date, startDate: Date?, endDate: Date?): Boolean {
+
+
         if (startDate != null && endDate != null) {
             val calendar = Calendar.getInstance()
 
@@ -266,7 +295,6 @@ class HomeFragment : Fragment() {
             val endTimeInMillis = calendar.timeInMillis
 
             // val isInRange = selectedTimeInMillis in startTimeInMillis..endTimeInMillis
-
 
             val selectedDateString =
                 SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedTimeInMillis)
@@ -286,6 +314,18 @@ class HomeFragment : Fragment() {
             return isInRange
         }
         return false
+    }
+
+    override fun onTakenClick(medId: Long) {
+
+        medTrackDate.add(date!!)
+
+        val medTrack = MedicineTrack(medId = medId, date = medTrackDate)
+
+        Log.e("medTrack---->", medTrack.toString())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.insertMedTrackRecord(medTrack)
+        }
     }
 
 }

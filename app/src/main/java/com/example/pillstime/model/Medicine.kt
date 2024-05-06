@@ -7,6 +7,8 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.pillstime.utils.Converters
 import com.example.pillstime.utils.ConvertersTwo
+import com.example.pillstime.utils.DateConverter
+import java.io.Serializable
 import java.util.Date
 
 
@@ -30,16 +32,13 @@ data class Medicine(
 
     @Embedded
     var doseDays: Weeks? = null,
-//
-//    @TypeConverters(ConvertersTwo::class)
-//    var isChecked: List<CheckDate>? = null,
 
     var doseTimes: List<DoseTime>? = null,
     @Embedded
     var reminder: Reminder? = null
 
 
-)
+):Serializable
 
 
 data class CheckDate(
@@ -54,6 +53,7 @@ data class DoseTime(
     var min: String,
     var am_pm: String
 )
+
 
 
 data class Reminder(
@@ -79,5 +79,15 @@ data class Weeks(
 
 data class Days(
     val day: String
+)
+
+@Entity(tableName = "medicine_track")
+@TypeConverters(DateConverter::class)
+data class MedicineTrack(
+
+    @PrimaryKey(autoGenerate = false)
+    var  medId:Long,
+    var date: List<Date>
+
 )
 

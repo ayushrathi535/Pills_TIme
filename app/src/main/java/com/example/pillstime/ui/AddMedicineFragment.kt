@@ -1,5 +1,13 @@
 package com.example.pillstime.ui
 
+import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +18,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.pillstime.R
@@ -21,6 +30,7 @@ import com.example.pillstime.model.Reminder
 import com.example.pillstime.model.ReminderState
 import com.example.pillstime.model.Weeks
 import com.example.pillstime.interfaces.ReminderCallback
+import com.example.pillstime.notifications.AlarmReceiver
 import com.example.pillstime.roomdb.MedicineDatabase
 import com.example.pillstime.utils.DateUtils
 import com.example.pillstime.utils.reminder
@@ -29,7 +39,9 @@ import com.example.pillstime.utils.showDateDialog
 import com.example.pillstime.viewmodels.MedicineViewModel
 import com.example.pillstime.viewmodels.MedicineViewModelFactory
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import java.util.Date
+import kotlin.time.Duration.Companion.minutes
 
 
 class AddMedicineFragment : Fragment(), ReminderCallback {
@@ -143,6 +155,7 @@ class AddMedicineFragment : Fragment(), ReminderCallback {
                             .show()
                     }
                 }
+                scheduleNotificationsForMedicine(medicine)
                 requireActivity().supportFragmentManager.popBackStack()
             }
 
@@ -523,5 +536,73 @@ class AddMedicineFragment : Fragment(), ReminderCallback {
         weeks.saturday = false
     }
 
+    @SuppressLint("ScheduleExactAlarm")
+    fun scheduleNotificationsForMedicine(medicine: Medicine) {
+
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(requireActivity(), AlarmReceiver::class.java)
+
+        val flags = when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
+            else -> FLAG_UPDATE_CURRENT
+        }
+//        val pendingIntent = PendingIntent.getBroadcast(requireActivity(), 0, intent,
+//            flags)
+
+        val startDate = medicine.startMedDate ?: return
+        val endDate = medicine.endMedDate ?: return
+        val doseTimes = medicine.doseTimes ?: return
+
+
+        val doseCalendar = Calendar.getInstance()
+        doseCalendar.time = startDate
+
+        while (doseCalendar.time <= endDate) {
+
+            for (index in doseTimes.indices) {
+
+                val calendar = Calendar.getInstance()
+                calendar.time = doseCalendar.time
+
+                Log.e("calendar-->", index.toString())
+
+                val hour = doseTimes[index].hour.toInt()
+                val minute = doseTimes[index].min.toInt()
+
+
+                if (doseTimes[index].am_pm.equals("PM", ignoreCase = true) && hour < 12) {
+                    calendar.set(Calendar.HOUR_OF_DAY, hour + 12)
+                } else {
+                    calendar.set(Calendar.HOUR_OF_DAY, hour)
+                }
+
+                calendar.set(Calendar.MINUTE, minute)
+                calendar.set(Calendar.SECOND, 0)
+
+                Log.e("add fragment -->", "${calendar.time}  + $index ")
+
+                val requestCode = index
+
+                val pendingIntent = PendingIntent.getBroadcast(
+                    requireActivity(), requestCode, intent,
+                    flags
+                )
+
+
+                // Schedule the alarm for the dose time 9205861005
+                alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    pendingIntent
+                )
+            }
+            doseCalendar.add(Calendar.DAY_OF_MONTH, 1)
+
+            Log.e("doseCalendar-->", doseCalendar.time.toString())
+        }
+
+    }
 
 }
+
+
