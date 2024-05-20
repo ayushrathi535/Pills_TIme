@@ -11,13 +11,14 @@ import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.util.PatternsCompat
 import com.example.pillstime.R
 import com.example.pillstime.ui.MainActivity
 
 class  NotificationUtils(base: Context) : ContextWrapper(base) {
 
     val MYCHANNEL_ID = "App Alert Notification ID"
-    val MYCHANNEL_NAME = "App Alert Notification"
+    val MYCHANNEL_NAME = "Pill Alert"
 
     private var manager: NotificationManager? = null
 

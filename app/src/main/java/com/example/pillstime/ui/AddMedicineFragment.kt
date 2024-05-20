@@ -18,7 +18,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.pillstime.R
@@ -41,7 +40,6 @@ import com.example.pillstime.viewmodels.MedicineViewModelFactory
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
-import kotlin.time.Duration.Companion.minutes
 
 
 class AddMedicineFragment : Fragment(), ReminderCallback {
@@ -135,6 +133,16 @@ class AddMedicineFragment : Fragment(), ReminderCallback {
                 Log.e("saveBTN-->", "if block")
                 Toast.makeText(requireContext(), "enter all fields", Toast.LENGTH_LONG).show()
 
+            } else if (
+                endDate?.time!! < startDate?.time!!
+
+            ) {
+                Log.e("check dates-->", "${startDate?.time}${endDate?.time}")
+                Toast.makeText(
+                    requireContext(),
+                    "end date cannot less than the start date ",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 val medicine = Medicine(
                     medicineName = medName,
@@ -368,7 +376,6 @@ class AddMedicineFragment : Fragment(), ReminderCallback {
 
     }
 
-
     private fun setupToolbar() {
         with(binding.toolbarLayout.toolbar) {
             setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
@@ -479,7 +486,7 @@ class AddMedicineFragment : Fragment(), ReminderCallback {
 
     }
 
-    fun onDaysSelected(selectedDays: List<Days>) {
+    private fun onDaysSelected(selectedDays: List<Days>) {
 
         weeks = mapSelectedDaysToWeeks(selectedDays)
 
@@ -552,55 +559,74 @@ class AddMedicineFragment : Fragment(), ReminderCallback {
         val startDate = medicine.startMedDate ?: return
         val endDate = medicine.endMedDate ?: return
         val doseTimes = medicine.doseTimes ?: return
-
+        val notificationType = medicine.reminder
+        val doseDays = medicine.doseDays ?: return
 
         val doseCalendar = Calendar.getInstance()
         doseCalendar.time = startDate
 
         while (doseCalendar.time <= endDate) {
 
-            for (index in doseTimes.indices) {
 
-                val calendar = Calendar.getInstance()
-                calendar.time = doseCalendar.time
+            val dayOfWeek = doseCalendar.get(Calendar.DAY_OF_WEEK)
+            //  val doseDays = medicine.doseDays
 
-                Log.e("calendar-->", index.toString())
+            if (isDoseDay(dayOfWeek, doseDays!!)) {
+                for (index in doseTimes.indices) {
 
-                val hour = doseTimes[index].hour.toInt()
-                val minute = doseTimes[index].min.toInt()
+                    val calendar = Calendar.getInstance()
+                    calendar.time = doseCalendar.time
+
+                    val hour = doseTimes[index].hour.toInt()
+                    val minute = doseTimes[index].min.toInt()
 
 
-                if (doseTimes[index].am_pm.equals("PM", ignoreCase = true) && hour < 12) {
-                    calendar.set(Calendar.HOUR_OF_DAY, hour + 12)
-                } else {
-                    calendar.set(Calendar.HOUR_OF_DAY, hour)
+                    if (doseTimes[index].am_pm.equals("PM", ignoreCase = true) && hour < 12) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hour + 12)
+                    } else {
+                        calendar.set(Calendar.HOUR_OF_DAY, hour)
+                    }
+
+                    calendar.set(Calendar.MINUTE, minute)
+                    calendar.set(Calendar.SECOND, 0)
+
+                    Log.e("add fragment -->", "${calendar.time}  + $index ")
+
+                    var requestCode = 1
+
+                    val pendingIntent = PendingIntent.getBroadcast(
+                        requireActivity(), requestCode, intent,
+                        flags
+                    )
+
+
+                    // Schedule the alarm for the dose time 9205861005
+                    alarmManager.setExact(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        pendingIntent
+                    )
+                    requestCode += 1
                 }
-
-                calendar.set(Calendar.MINUTE, minute)
-                calendar.set(Calendar.SECOND, 0)
-
-                Log.e("add fragment -->", "${calendar.time}  + $index ")
-
-                val requestCode = index
-
-                val pendingIntent = PendingIntent.getBroadcast(
-                    requireActivity(), requestCode, intent,
-                    flags
-                )
-
-
-                // Schedule the alarm for the dose time 9205861005
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis,
-                    pendingIntent
-                )
             }
             doseCalendar.add(Calendar.DAY_OF_MONTH, 1)
 
             Log.e("doseCalendar-->", doseCalendar.time.toString())
         }
 
+    }
+
+    private fun isDoseDay(dayOfWeek: Int, doseDays: Weeks): Boolean {
+        return when (dayOfWeek) {
+            Calendar.SUNDAY -> doseDays.sunday || doseDays.allDays
+            Calendar.MONDAY -> doseDays.monday || doseDays.allDays
+            Calendar.TUESDAY -> doseDays.tuesday || doseDays.allDays
+            Calendar.WEDNESDAY -> doseDays.wednesday || doseDays.allDays
+            Calendar.THURSDAY -> doseDays.thursday || doseDays.allDays
+            Calendar.FRIDAY -> doseDays.friday || doseDays.allDays
+            Calendar.SATURDAY -> doseDays.saturday || doseDays.allDays
+            else -> false
+        }
     }
 
 }
